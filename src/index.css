@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --gold: #C5A36A;
+    --gold-light: #E4CB9B;
+    --gold-dark: #8E703D;
+    --bg-dark: #050505;
+    --surface-dark: #0E0E0E;
+    --surface-border: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    background-color: #050505;
+    color: #F5F5F0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif-luxury {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-display {
+    font-family: 'Cinzel', serif;
+  }
+
+  .font-mono-code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Sophisticated Dark scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A36A;
+}
+
+/* Glass & Glow Accents */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F5F5F0 0%, #C5A36A 50%, #E4CB9B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxury-border {
+  border-color: rgba(197, 163, 106, 0.2);
+}
+
+.luxury-border-hover:hover {
+  border-color: rgba(197, 163, 106, 0.5);
+  box-shadow: 0 0 20px rgba(197, 163, 106, 0.08);
+}
+
