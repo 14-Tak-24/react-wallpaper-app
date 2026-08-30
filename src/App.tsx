@@ -1,26 +1,28 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import { Navbar, MainNavTab } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { CatalogFilter } from './components/CatalogFilter';
 import { AssetCard } from './components/AssetCard';
-import { WallpaperPreviewer } from './components/WallpaperPreviewer';
-import { WallpaperDownloader } from './components/WallpaperDownloader';
 import { WallpaperSimulatorModal } from './components/WallpaperSimulatorModal';
 import { BatchDownloadModal } from './components/BatchDownloadModal';
 import { PlistInspectorModal } from './components/PlistInspectorModal';
 import { CustomCatalogUploader } from './components/CustomCatalogUploader';
-import { GobblersKnobHub } from './components/GobblersKnobHub';
-import { VoiceCloningPortfolio } from './components/VoiceCloningPortfolio';
-import { AudioWallpaperExperience } from './components/AudioWallpaperExperience';
-import { WallpaperAnalytics } from './components/WallpaperAnalytics';
-import { WallpaperCollections } from './components/WallpaperCollections';
-import { Settings } from './components/Settings';
-import { SearchHistory } from './components/SearchHistory';
-import { ColorPaletteExtractor } from './components/ColorPaletteExtractor';
-import { WallpaperComparison } from './components/WallpaperComparison';
 import { DEFAULT_PLIST_XML } from './data/defaultCatalog';
 import { parsePlistXml } from './utils/plistParser';
 import { DesktopPictureAsset, ManifestMetadata, MacOSVersion, AssetType } from './types';
+
+// Lazy load heavy components
+const WallpaperPreviewer = lazy(() => import('./components/WallpaperPreviewer'));
+const WallpaperDownloader = lazy(() => import('./components/WallpaperDownloader'));
+const GobblersKnobHub = lazy(() => import('./components/GobblersKnobHub'));
+const VoiceCloningPortfolio = lazy(() => import('./components/VoiceCloningPortfolio'));
+const AudioWallpaperExperience = lazy(() => import('./components/AudioWallpaperExperience'));
+const WallpaperAnalytics = lazy(() => import('./components/WallpaperAnalytics'));
+const WallpaperCollections = lazy(() => import('./components/WallpaperCollections'));
+const Settings = lazy(() => import('./components/Settings'));
+const SearchHistory = lazy(() => import('./components/SearchHistory'));
+const ColorPaletteExtractor = lazy(() => import('./components/ColorPaletteExtractor'));
+const WallpaperComparison = lazy(() => import('./components/WallpaperComparison'));
 
 // Pre-parse default catalog
 const INITIAL_PARSED = parsePlistXml(DEFAULT_PLIST_XML);
@@ -198,7 +200,9 @@ export default function App() {
         {/* GOBBLER'S KNOB ARCHIVE & INTEL HUB */}
         {activeNavTab === 'gobblers-knob' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <GobblersKnobHub />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <GobblersKnobHub />
+            </Suspense>
           </div>
         )}
 
@@ -282,83 +286,103 @@ export default function App() {
         {/* RESOLUTION PREVIEWER VIEW */}
         {activeNavTab === 'previewer' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <WallpaperPreviewer
-              asset={previewingAsset}
-              allAssets={assets}
-              onSelectAsset={setPreviewingAsset}
-              onAddToDownloadQueue={(a) => {
-                setPreviewingAsset(a);
-                setActiveNavTab('downloader');
-              }}
-              onOpenBatchModal={() => setIsBatchModalOpen(true)}
-            />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <WallpaperPreviewer
+                asset={previewingAsset}
+                allAssets={assets}
+                onSelectAsset={setPreviewingAsset}
+                onAddToDownloadQueue={(a) => {
+                  setPreviewingAsset(a);
+                  setActiveNavTab('downloader');
+                }}
+                onOpenBatchModal={() => setIsBatchModalOpen(true)}
+              />
+            </Suspense>
           </div>
         )}
 
         {/* CDN DOWNLOADER VIEW */}
         {activeNavTab === 'downloader' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <WallpaperDownloader
-              assets={assets}
-              onOpenBatchModal={() => setIsBatchModalOpen(true)}
-              onPreviewAsset={handleOpenPreviewStudio}
-            />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <WallpaperDownloader
+                assets={assets}
+                onOpenBatchModal={() => setIsBatchModalOpen(true)}
+                onPreviewAsset={handleOpenPreviewStudio}
+              />
+            </Suspense>
           </div>
         )}
 
         {/* VOICE CLONING PORTFOLIO VIEW */}
         {activeNavTab === 'voice-cloning' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <VoiceCloningPortfolio />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <VoiceCloningPortfolio />
+            </Suspense>
           </div>
         )}
 
         {/* AUDIO WALLPAPER EXPERIENCE VIEW */}
         {activeNavTab === 'audio-experience' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <AudioWallpaperExperience wallpapers={assets} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <AudioWallpaperExperience wallpapers={assets} />
+            </Suspense>
           </div>
         )}
 
         {/* ANALYTICS VIEW */}
         {activeNavTab === 'analytics' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <WallpaperAnalytics assets={assets} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <WallpaperAnalytics assets={assets} />
+            </Suspense>
           </div>
         )}
 
         {/* COLLECTIONS VIEW */}
         {activeNavTab === 'collections' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <WallpaperCollections wallpapers={assets} allAssets={assets} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <WallpaperCollections wallpapers={assets} allAssets={assets} />
+            </Suspense>
           </div>
         )}
 
         {/* SETTINGS VIEW */}
         {activeNavTab === 'settings' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <Settings />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <Settings />
+            </Suspense>
           </div>
         )}
 
         {/* SEARCH HISTORY VIEW */}
         {activeNavTab === 'search-history' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <SearchHistory onSelectQuery={(query) => setSearchQuery(query)} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <SearchHistory onSelectQuery={(query) => setSearchQuery(query)} />
+            </Suspense>
           </div>
         )}
 
         {/* COLOR PALETTE VIEW */}
         {activeNavTab === 'color-palette' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <ColorPaletteExtractor asset={previewingAsset || assets[0]} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <ColorPaletteExtractor asset={previewingAsset || assets[0]} />
+            </Suspense>
           </div>
         )}
 
         {/* WALLPAPER COMPARISON VIEW */}
         {activeNavTab === 'comparison' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
-            <WallpaperComparison assets={assets} />
+            <Suspense fallback={<div className="text-white/50">Loading...</div>}>
+              <WallpaperComparison assets={assets} />
+            </Suspense>
           </div>
         )}
       </main>
