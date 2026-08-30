@@ -11,18 +11,18 @@ import { DEFAULT_PLIST_XML } from './data/defaultCatalog';
 import { parsePlistXml } from './utils/plistParser';
 import { DesktopPictureAsset, ManifestMetadata, MacOSVersion, AssetType } from './types';
 
-// Lazy load heavy components
-const WallpaperPreviewer = lazy(() => import('./components/WallpaperPreviewer'));
-const WallpaperDownloader = lazy(() => import('./components/WallpaperDownloader'));
-const GobblersKnobHub = lazy(() => import('./components/GobblersKnobHub'));
-const VoiceCloningPortfolio = lazy(() => import('./components/VoiceCloningPortfolio'));
-const AudioWallpaperExperience = lazy(() => import('./components/AudioWallpaperExperience'));
-const WallpaperAnalytics = lazy(() => import('./components/WallpaperAnalytics'));
-const WallpaperCollections = lazy(() => import('./components/WallpaperCollections'));
-const Settings = lazy(() => import('./components/Settings'));
-const SearchHistory = lazy(() => import('./components/SearchHistory'));
-const ColorPaletteExtractor = lazy(() => import('./components/ColorPaletteExtractor'));
-const WallpaperComparison = lazy(() => import('./components/WallpaperComparison'));
+// Lazy load heavy components (using named exports)
+const WallpaperPreviewer = lazy(() => import('./components/WallpaperPreviewer').then(m => ({ default: m.WallpaperPreviewer })));
+const WallpaperDownloader = lazy(() => import('./components/WallpaperDownloader').then(m => ({ default: m.WallpaperDownloader })));
+const GobblersKnobHub = lazy(() => import('./components/GobblersKnobHub').then(m => ({ default: m.GobblersKnobHub })));
+const VoiceCloningPortfolio = lazy(() => import('./components/VoiceCloningPortfolio').then(m => ({ default: m.VoiceCloningPortfolio })));
+const AudioWallpaperExperience = lazy(() => import('./components/AudioWallpaperExperience').then(m => ({ default: m.AudioWallpaperExperience })));
+const WallpaperAnalytics = lazy(() => import('./components/WallpaperAnalytics').then(m => ({ default: m.WallpaperAnalytics })));
+const WallpaperCollections = lazy(() => import('./components/WallpaperCollections').then(m => ({ default: m.WallpaperCollections })));
+const Settings = lazy(() => import('./components/Settings').then(m => ({ default: m.Settings })));
+const SearchHistory = lazy(() => import('./components/SearchHistory').then(m => ({ default: m.SearchHistory })));
+const ColorPaletteExtractor = lazy(() => import('./components/ColorPaletteExtractor').then(m => ({ default: m.ColorPaletteExtractor })));
+const WallpaperComparison = lazy(() => import('./components/WallpaperComparison').then(m => ({ default: m.WallpaperComparison })));
 
 // Pre-parse default catalog
 const INITIAL_PARSED = parsePlistXml(DEFAULT_PLIST_XML);
