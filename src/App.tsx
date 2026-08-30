@@ -14,6 +14,10 @@ import { VoiceCloningPortfolio } from './components/VoiceCloningPortfolio';
 import { AudioWallpaperExperience } from './components/AudioWallpaperExperience';
 import { WallpaperAnalytics } from './components/WallpaperAnalytics';
 import { WallpaperCollections } from './components/WallpaperCollections';
+import { Settings } from './components/Settings';
+import { SearchHistory } from './components/SearchHistory';
+import { ColorPaletteExtractor } from './components/ColorPaletteExtractor';
+import { WallpaperComparison } from './components/WallpaperComparison';
 import { DEFAULT_PLIST_XML } from './data/defaultCatalog';
 import { parsePlistXml } from './utils/plistParser';
 import { DesktopPictureAsset, ManifestMetadata, MacOSVersion, AssetType } from './types';
@@ -128,6 +132,30 @@ export default function App() {
     setSortBy('name');
   };
 
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    // Record search to history when user submits (non-empty)
+    if (query.trim() && query.length > 2) {
+      const saved = localStorage.getItem('search-history');
+      const history = saved ? JSON.parse(saved) : [];
+      const existing = history.find((h: any) => h.query.toLowerCase() === query.toLowerCase());
+      let newHistory;
+
+      if (existing) {
+        newHistory = history.map((h: any) =>
+          h.query.toLowerCase() === query.toLowerCase()
+            ? { ...h, timestamp: Date.now(), count: h.count + 1 }
+            : h
+        );
+      } else {
+        newHistory = [{ query, timestamp: Date.now(), count: 1 }, ...history];
+      }
+
+      newHistory = newHistory.slice(0, 100);
+      localStorage.setItem('search-history', JSON.stringify(newHistory));
+    }
+  };
+
   const handleOpenPreviewStudio = (asset: DesktopPictureAsset) => {
     setPreviewingAsset(asset);
     setActiveNavTab('previewer');
@@ -195,7 +223,7 @@ export default function App() {
               selectedAssetType={selectedAssetType}
               onSelectAssetType={setSelectedAssetType}
               searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
+              onSearchChange={handleSearchChange}
               sortBy={sortBy}
               onSortChange={setSortBy}
               viewMode={viewMode}
@@ -305,6 +333,34 @@ export default function App() {
             <WallpaperCollections wallpapers={assets} allAssets={assets} />
           </div>
         )}
+
+        {/* SETTINGS VIEW */}
+        {activeNavTab === 'settings' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+            <Settings />
+          </div>
+        )}
+
+        {/* SEARCH HISTORY VIEW */}
+        {activeNavTab === 'search-history' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+            <SearchHistory onSelectQuery={(query) => setSearchQuery(query)} />
+          </div>
+        )}
+
+        {/* COLOR PALETTE VIEW */}
+        {activeNavTab === 'color-palette' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+            <ColorPaletteExtractor asset={previewingAsset || assets[0]} />
+          </div>
+        )}
+
+        {/* WALLPAPER COMPARISON VIEW */}
+        {activeNavTab === 'comparison' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+            <WallpaperComparison assets={assets} />
+          </div>
+        )}
       </main>
 
       {/* Global Modals */}
@@ -382,6 +438,18 @@ export default function App() {
             </button>
             <button onClick={() => setActiveNavTab('collections')} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
               Collections & Favorites
+            </button>
+            <button onClick={() => setActiveNavTab('settings')} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
+              Settings
+            </button>
+            <button onClick={() => setActiveNavTab('search-history')} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
+              Search History
+            </button>
+            <button onClick={() => setActiveNavTab('color-palette')} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
+              Color Palette
+            </button>
+            <button onClick={() => setActiveNavTab('comparison')} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
+              Wallpaper Comparison
             </button>
             <button onClick={() => setIsBatchModalOpen(true)} className="hover:text-[#C5A36A] transition-colors cursor-pointer">
               Batch CLI Generator

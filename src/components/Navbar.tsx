@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Terminal, Code2, Sparkles, SlidersHorizontal, Layers, Check, Monitor, Download, Mic, Music, BarChart3, Heart } from 'lucide-react';
+import { Terminal, Code2, Sparkles, SlidersHorizontal, Layers, Check, Monitor, Download, Mic, Music, BarChart3, Heart, Settings, Clock, Palette, Columns } from 'lucide-react';
 import { ManifestMetadata } from '../types';
 
-export type MainNavTab = 'gobblers-knob' | 'catalog' | 'previewer' | 'downloader' | 'voice-cloning' | 'audio-experience' | 'analytics' | 'collections';
+export type MainNavTab = 'gobblers-knob' | 'catalog' | 'previewer' | 'downloader' | 'voice-cloning' | 'audio-experience' | 'analytics' | 'collections' | 'settings' | 'search-history' | 'color-palette' | 'comparison';
 
 interface NavbarProps {
   metadata: ManifestMetadata;
@@ -151,6 +151,58 @@ export function Navbar({
           >
             <Heart className="w-3.5 h-3.5" />
             <span>Collections</span>
+          </button>
+
+          <button
+            id="nav-tab-settings"
+            onClick={() => onSelectNavTab('settings')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+              activeNavTab === 'settings'
+                ? 'bg-[#C5A36A] text-black font-semibold shadow-md'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            <Settings className="w-3.5 h-3.5" />
+            <span>Settings</span>
+          </button>
+
+          <button
+            id="nav-tab-search-history"
+            onClick={() => onSelectNavTab('search-history')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+              activeNavTab === 'search-history'
+                ? 'bg-[#C5A36A] text-black font-semibold shadow-md'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            <Clock className="w-3.5 h-3.5" />
+            <span>History</span>
+          </button>
+
+          <button
+            id="nav-tab-color-palette"
+            onClick={() => onSelectNavTab('color-palette')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+              activeNavTab === 'color-palette'
+                ? 'bg-[#C5A36A] text-black font-semibold shadow-md'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            <Palette className="w-3.5 h-3.5" />
+            <span>Palette</span>
+          </button>
+
+          <button
+            id="nav-tab-comparison"
+            onClick={() => onSelectNavTab('comparison')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+              activeNavTab === 'comparison'
+                ? 'bg-[#C5A36A] text-black font-semibold shadow-md'
+                : 'text-white/60 hover:text-white'
+            }`}
+          >
+            <Columns className="w-3.5 h-3.5" />
+            <span>Compare</span>
           </button>
         </nav>
 
