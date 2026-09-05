@@ -19,7 +19,7 @@ export function WallpaperComparison({ assets, onClose }: WallpaperComparisonProp
   };
 
   const handleDownload = (asset: DesktopPictureAsset) => {
-    window.open(asset.downloadUrl, '_blank');
+    window.open(asset.fullUrl, '_blank');
   };
 
   const formatFileSize = (bytes: number) => {
@@ -255,7 +255,7 @@ export function WallpaperComparison({ assets, onClose }: WallpaperComparisonProp
                 className="group relative aspect-video rounded-lg overflow-hidden border border-white/10 hover:border-[#C5A36A] transition-all"
               >
                 <img
-                  src={asset.downloadUrl}
+                  src={asset.fullUrl}
                   alt={asset.desktopPictureId}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />

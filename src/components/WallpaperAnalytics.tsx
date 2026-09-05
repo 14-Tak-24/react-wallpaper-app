@@ -196,9 +196,9 @@ export function WallpaperAnalytics({ assets }: WallpaperAnalyticsProps) {
           </div>
           <div className="space-y-3">
             {Object.entries(analytics.versionDistribution)
-              .sort(([, a], [, b]) => b - a)
+              .sort(([, a], [, b]) => (b as number) - (a as number))
               .map(([version, count]) => {
-                const percentage = ((count / analytics.totalAssets) * 100).toFixed(1);
+                const percentage = (((count as number) / analytics.totalAssets) * 100).toFixed(1);
                 return (
                   <div key={version} className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
@@ -225,9 +225,9 @@ export function WallpaperAnalytics({ assets }: WallpaperAnalyticsProps) {
           </div>
           <div className="space-y-3">
             {Object.entries(analytics.typeDistribution)
-              .sort(([, a], [, b]) => b - a)
+              .sort(([, a], [, b]) => (b as number) - (a as number))
               .map(([type, count]) => {
-                const percentage = ((count / analytics.totalAssets) * 100).toFixed(1);
+                const percentage = (((count as number) / analytics.totalAssets) * 100).toFixed(1);
                 return (
                   <div key={type} className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
@@ -254,9 +254,9 @@ export function WallpaperAnalytics({ assets }: WallpaperAnalyticsProps) {
           </div>
           <div className="space-y-3">
             {Object.entries(analytics.categoryDistribution)
-              .sort(([, a], [, b]) => b - a)
+              .sort(([, a], [, b]) => (b as number) - (a as number))
               .map(([category, count]) => {
-                const percentage = ((count / analytics.totalAssets) * 100).toFixed(1);
+                const percentage = (((count as number) / analytics.totalAssets) * 100).toFixed(1);
                 return (
                   <div key={category} className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
@@ -365,7 +365,7 @@ export function WallpaperAnalytics({ assets }: WallpaperAnalyticsProps) {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {Object.entries(analytics.buildDistribution)
-            .sort(([, a], [, b]) => b - a)
+            .sort(([, a], [, b]) => (b as number) - (a as number))
             .slice(0, 12)
             .map(([build, count]) => (
               <div key={build} className="p-3 rounded-xl bg-black/40 border border-white/5 text-center">

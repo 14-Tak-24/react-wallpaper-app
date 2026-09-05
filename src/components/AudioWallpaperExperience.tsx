@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import React from 'react';
 import {
   Mic,
   Image as ImageIcon,
