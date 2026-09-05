@@ -40,7 +40,7 @@ jobs:
           files: ./coverage/coverage-final.json
           flags: unittests
           name: codecov-umbrella
-          fail_on_error: false
+          fail_ci_if_error: false
 
   build:
     runs-on: ubuntu-latest
